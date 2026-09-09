@@ -1,0 +1,20 @@
+# Local runtime config and certificates — never commit these
+.env
+conf/config.toml
+conf/*.crt
+conf/*.key
+conf/*.pem
+conf/*.p12
+*.pem
+*.key
+
+# Downloaded or locally built binary
+/order-executor
+/order-executor-*
+*.tar.gz
+SHA256SUMS.txt
+
+.DS_Store
+.idea/
+.vscode/
+*.log

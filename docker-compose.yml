@@ -1,0 +1,23 @@
+# Official image on Docker Hub: zuudot/order-executor
+# Override with ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.0
+services:
+  order-executor:
+    image: ${ORDER_EXECUTOR_IMAGE:-zuudot/order-executor:latest}
+    restart: unless-stopped
+    environment:
+      CONFIG_FILE: /app/conf/config.toml
+      RUST_LOG: info
+    volumes:
+      - ./conf/config.toml:/app/conf/config.toml:ro
+      # Uncomment if platform mTLS is enabled:
+      # - ./conf/executor.crt:/app/conf/executor.crt:ro
+      # - ./conf/executor.key:/app/conf/executor.key:ro
+      # - ./conf/platform-ca.crt:/app/conf/platform-ca.crt:ro
+
+    # The image runs as uid 10001. The mounted config must be readable by that user:
+    #   cp conf/config.example.toml conf/config.toml
+    #   chown 10001:10001 conf/config.toml && chmod 600 conf/config.toml
+    #
+    # On Linux, host networking can shave a little latency. It is not required;
+    # this process only makes outbound connections.
+    # network_mode: host

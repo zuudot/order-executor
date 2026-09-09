@@ -1,0 +1,45 @@
+# Copy this file to config.toml and fill in real values.
+#   cp conf/config.example.toml conf/config.toml
+#
+# Do not commit config.toml. It contains exchange and platform secrets.
+
+[platform]
+gateway_url = "wss://zuudot.com/api/trading-engine/executor-gateway/ws"
+user_id = "YOUR_PLATFORM_USER_ID"
+api_key = "oct_live_xxxxxxxx"
+# Required when the platform enables mTLS for remote executors.
+# client_cert_path = "/etc/order-executor/executor.crt"
+# client_key_path = "/etc/order-executor/executor.key"
+# ca_cert_path = "/etc/order-executor/platform-ca.crt"
+reconnect_initial_ms = 1000
+reconnect_max_ms = 30000
+
+# One [[accounts]] block per exchange account.
+# executor_id and account_id are issued by the platform and must be unique in this file.
+[[accounts]]
+executor_id = "YOUR_EXECUTOR_ID"
+account_id = "YOUR_ACCOUNT_ID"
+name = "okx"                 # okx | bybit | binance
+api_key = "EXCHANGE_API_KEY"
+secret = "EXCHANGE_API_SECRET"
+passphrase = ""              # required by OKX
+category = "linear"          # spot | linear | inverse
+account_mode = "linear"
+
+# Additional accounts:
+# [[accounts]]
+# executor_id = "YOUR_SECOND_EXECUTOR_ID"
+# account_id = "YOUR_SECOND_ACCOUNT_ID"
+# name = "bybit"
+# api_key = "EXCHANGE_API_KEY"
+# secret = "EXCHANGE_API_SECRET"
+# passphrase = ""
+# category = "linear"
+# account_mode = "linear"
+
+[order]
+maker_timeout_ms = 300
+
+[runtime]
+health_check_interval_ms = 30000
+exchange_unready_restart_ms = 180000

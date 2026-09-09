@@ -1,0 +1,27 @@
+Proprietary License
+
+Copyright (c) 2026 Zuudot
+
+This repository distributes documentation, configuration examples, and the
+install script for official Docker images of the order-executor. Source code
+is not included.
+
+Permission is granted to download and run the official images solely to
+connect your own exchange accounts to the Zuudot platform, in accordance with
+the platform terms of service.
+
+You may not:
+  - reverse engineer, decompile, or attempt to extract source from the images
+  - modify and redistribute the images
+  - use the software to provide a competing hosted execution service
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Trading involves risk of loss. You are responsible for exchange API key
+permissions, IP allowlists, and the orders this software places on your behalf.
