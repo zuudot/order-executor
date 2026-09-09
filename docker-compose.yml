@@ -8,6 +8,7 @@ services:
       CONFIG_FILE: /app/conf/config.toml
       RUST_LOG: info
     volumes:
+      # Host path is next to this compose file, not /conf/config.toml
       - ./conf/config.toml:/app/conf/config.toml:ro
       # Uncomment if platform mTLS is enabled:
       # - ./conf/executor.crt:/app/conf/executor.crt:ro

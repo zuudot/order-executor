@@ -27,15 +27,31 @@
 
 ## 安装
 
-安装脚本会检查本机是否已有 Docker，没有就自动安装，然后拉取官方镜像。
+先建一个工作目录再跑安装脚本（不要在系统根目录 `/` 下执行）。脚本会检查 Docker，没有就自动安装，然后拉取官方镜像。
 
 ```bash
+mkdir -p ~/order-executor && cd ~/order-executor
 curl -fsSL https://raw.githubusercontent.com/zuudot/order-executor/main/install.sh | bash
 ```
 
-编辑 `conf/config.toml` 后启动：
+完成后当前目录是：
+
+```
+~/order-executor/                 ← 你刚才 cd 进去的目录，也是 docker-compose.yml 所在处
+  docker-compose.yml
+  conf/
+    config.example.toml           ← 仓库样例
+    config.toml                   ← 要编辑的真实配置（不是 /conf/config.toml）
+```
+
+文档里的 `conf/config.toml`、compose 里的 `./conf/config.toml`，都是相对这个工作目录，**不是** Linux 根目录。
+
+编辑配置后启动：
 
 ```bash
+# 仍在 ~/order-executor 下
+nano conf/config.toml
+sudo chown 10001:10001 conf/config.toml && chmod 600 conf/config.toml   # Linux
 docker compose up -d
 docker compose logs -f
 ```
@@ -52,7 +68,9 @@ ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.0 ./install.sh
 
 1. 在逐点控制台/API 为每个交易所账户创建一个 `remote_executor` 绑定。
 2. 记下该账户的 `executor_id`、`account_id`，以及平台 `user_id` 和 `api_key`。
-3. 复制 `conf/config.example.toml` 为 `conf/config.toml` 并填入真实值。
+3. 编辑工作目录里的 `conf/config.toml`（安装脚本已从样例复制好）。不要写到 `/conf/config.toml`。
+
+`docker-compose.yml` 会把宿主机上的这份文件挂进容器：`./conf/config.toml` → 容器内 `/app/conf/config.toml`。你只改宿主机上那一份。
 
 ### 平台
 
@@ -93,13 +111,13 @@ exchange_unready_restart_ms = 180000
 
 周期性 `account runtime health` 日志会同时打出交易所 WS 和反向 Gateway 的状态。
 
-完整样例见 [`conf/config.example.toml`](conf/config.example.toml)。
+完整样例见工作目录中的 [`conf/config.example.toml`](conf/config.example.toml)。
 
 ### 环境变量
 
 | 变量 | 含义 |
 | --- | --- |
-| `CONFIG_FILE` | TOML 路径（未设置时才会去找 `conf/${RUST_ENV}.toml`） |
+| `CONFIG_FILE` | 容器内 TOML 路径。compose 已设为 `/app/conf/config.toml`，对应宿主机工作目录下的 `conf/config.toml` |
 | `RUST_ENV` | 仅在未设置 `CONFIG_FILE` 时使用 |
 | `RUST_LOG` | 日志级别，例如 `info` |
 

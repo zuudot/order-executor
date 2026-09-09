@@ -27,15 +27,31 @@ Supported exchanges: **OKX**, **Bybit**, **Binance**.
 
 ## Install
 
-The installer checks for Docker, installs it if missing, and pulls the official image.
+Create a working directory first (do not run this from `/`). The installer checks for Docker, installs it if missing, and pulls the official image.
 
 ```bash
+mkdir -p ~/order-executor && cd ~/order-executor
 curl -fsSL https://raw.githubusercontent.com/zuudot/order-executor/main/install.sh | bash
 ```
 
-Then edit `conf/config.toml` and start:
+That directory now looks like:
+
+```
+~/order-executor/                 ← the directory you cd'd into; docker-compose.yml lives here
+  docker-compose.yml
+  conf/
+    config.example.toml           ← example from the repo
+    config.toml                   ← the file you edit (not /conf/config.toml)
+```
+
+`conf/config.toml` in this README and `./conf/config.toml` in Compose are relative to that working directory, **not** the filesystem root.
+
+Then edit the config and start:
 
 ```bash
+# still inside ~/order-executor
+nano conf/config.toml
+sudo chown 10001:10001 conf/config.toml && chmod 600 conf/config.toml   # Linux
 docker compose up -d
 docker compose logs -f
 ```
@@ -52,7 +68,9 @@ ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.0 ./install.sh
 
 1. In the Zuudot UI/API, create one `remote_executor` binding per exchange account.
 2. Copy that account's `executor_id` and `account_id`, plus your platform `user_id` and `api_key`.
-3. Copy `conf/config.example.toml` to `conf/config.toml` and fill in values.
+3. Edit `conf/config.toml` in the working directory (the installer already copied it from the example). Do not put it at `/conf/config.toml`.
+
+`docker-compose.yml` mounts that host file into the container: `./conf/config.toml` → `/app/conf/config.toml`. Only edit the host file.
 
 ### Platform
 
@@ -93,13 +111,13 @@ exchange_unready_restart_ms = 180000
 
 The periodic `account runtime health` log reports both the exchange WebSocket state and the reverse Gateway connection for every account.
 
-Full example: [`conf/config.example.toml`](conf/config.example.toml).
+Full example: [`conf/config.example.toml`](conf/config.example.toml) in the working directory.
 
 ### Environment
 
 | Variable | Meaning |
 | --- | --- |
-| `CONFIG_FILE` | Path to the TOML file (required unless `conf/${RUST_ENV}.toml` exists next to the binary) |
+| `CONFIG_FILE` | Path inside the container. Compose sets this to `/app/conf/config.toml`, which is the host working directory's `conf/config.toml` |
 | `RUST_ENV` | Used only when `CONFIG_FILE` is unset; looks for `conf/<env>.toml` |
 | `RUST_LOG` | Log filter, e.g. `info` or `order_executor=debug` |
 
