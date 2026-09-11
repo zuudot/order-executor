@@ -56,12 +56,12 @@ docker compose up -d
 docker compose logs -f
 ```
 
-镜像：[`zuudot/order-executor`](https://hub.docker.com/r/zuudot/order-executor)（默认 `:latest`，也可钉死版本如 `:0.1.0`）。
+镜像：[`zuudot/order-executor`](https://hub.docker.com/r/zuudot/order-executor)（默认 `:latest`，也可钉死版本如 `:0.1.3`）。
 
 ```bash
-./install.sh 0.1.0
+./install.sh 0.1.3
 # 或
-ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.0 ./install.sh
+ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.3 ./install.sh
 ```
 
 ## 配置
@@ -141,7 +141,7 @@ exchange_unready_restart_ms = 180000
 
 ## 版本
 
-以 Docker Hub 的 tag（`zuudot/order-executor:0.1.0`）为准，见 [CHANGELOG.md](CHANGELOG.md)。
+以 Docker Hub 的 tag（`zuudot/order-executor:0.1.3`）为准，见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 许可
 

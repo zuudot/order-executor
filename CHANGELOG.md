@@ -1,8 +1,13 @@
 # Changelog
 
-All notable public image releases are listed here. Versions match Docker Hub tags (`zuudot/order-executor:0.1.0`).
+All notable public image releases are listed here. Versions match Docker Hub tags (`zuudot/order-executor:0.1.3`).
 
 ## [Unreleased]
+
+## [0.1.3] — 2026-09-11
+
+- Docker image `zuudot/order-executor:0.1.3`.
+
 
 ## [0.1.0] — 2026-09-07
 

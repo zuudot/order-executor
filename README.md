@@ -56,12 +56,12 @@ docker compose up -d
 docker compose logs -f
 ```
 
-Image: [`zuudot/order-executor`](https://hub.docker.com/r/zuudot/order-executor) (`:latest`, or pin a version such as `:0.1.0`).
+Image: [`zuudot/order-executor`](https://hub.docker.com/r/zuudot/order-executor) (`:latest`, or pin a version such as `:0.1.3`).
 
 ```bash
-./install.sh 0.1.0
+./install.sh 0.1.3
 # or
-ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.0 ./install.sh
+ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.3 ./install.sh
 ```
 
 ## Configuration
@@ -145,7 +145,7 @@ Production Gateway connections use `wss://`. If the platform requires client cer
 
 ## Versioning
 
-Docker Hub tags (`zuudot/order-executor:0.1.0`) are the source of truth. See [CHANGELOG.md](CHANGELOG.md).
+Docker Hub tags (`zuudot/order-executor:0.1.3`) are the source of truth. See [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 

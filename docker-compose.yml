@@ -1,5 +1,5 @@
 # Official image on Docker Hub: zuudot/order-executor
-# Override with ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.0
+# Override with ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.3
 services:
   order-executor:
     image: ${ORDER_EXECUTOR_IMAGE:-zuudot/order-executor:latest}
