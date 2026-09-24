@@ -56,12 +56,61 @@ docker compose up -d
 docker compose logs -f
 ```
 
-镜像：[`zuudot/order-executor`](https://hub.docker.com/r/zuudot/order-executor)（默认 `:latest`，也可钉死版本如 `:0.1.3`）。
+镜像：[`zuudot/order-executor`](https://hub.docker.com/r/zuudot/order-executor)（默认 `:latest`，也可钉死版本如 `:0.1.4`）。
 
 ```bash
-./install.sh 0.1.3
+./install.sh 0.1.4
 # 或
-ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.3 ./install.sh
+ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.4 ./install.sh
+```
+
+安装脚本会在当前目录写入 `.env`，里面是这次拉取的镜像名。`docker-compose.yml` 用这个变量决定容器跑哪一个 tag。
+
+## 更新已经在运行的容器
+
+在当初安装的目录里更新，一般是 `~/order-executor`。不要换一个新目录再装一份，那样会再启动一个执行器。
+
+`conf/config.toml` 在宿主机上，更新镜像不会改这个文件，也不用重新填写密钥。更新时旧容器会停掉，再用新镜像启动。内存里还没确认的指令会清掉，交易所和 Gateway 会重新连接。
+
+### 继续使用 latest
+
+打开 `.env`，确认内容是：
+
+```
+ORDER_EXECUTOR_IMAGE=zuudot/order-executor:latest
+```
+
+然后在该目录执行：
+
+```bash
+cd ~/order-executor
+docker compose up -d --pull always
+docker compose logs -f
+```
+
+`--pull always` 会先向 Docker Hub 拉取这个 tag 的当前镜像，再重建容器。只执行 `docker compose up -d` 时，本机已经有同名镜像就不会重新下载。
+
+### 换成指定版本
+
+把 `.env` 改成要运行的 tag。可选版本见 [CHANGELOG.md](CHANGELOG.md)，或 Docker Hub 上的 tag 列表。
+
+```
+ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.4
+```
+
+保存后执行和上面相同的命令：
+
+```bash
+cd ~/order-executor
+docker compose up -d --pull always
+docker compose logs -f
+```
+
+查看当前容器使用的镜像：
+
+```bash
+cd ~/order-executor
+docker compose images
 ```
 
 ## 配置
@@ -141,7 +190,7 @@ exchange_unready_restart_ms = 180000
 
 ## 版本
 
-以 Docker Hub 的 tag（`zuudot/order-executor:0.1.3`）为准，见 [CHANGELOG.md](CHANGELOG.md)。
+以 Docker Hub 的 tag（`zuudot/order-executor:0.1.4`）为准，见 [CHANGELOG.md](CHANGELOG.md)。已经在运行的容器按上面的「更新已经在运行的容器」更换镜像。
 
 ## 许可
 

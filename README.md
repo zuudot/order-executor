@@ -56,12 +56,61 @@ docker compose up -d
 docker compose logs -f
 ```
 
-Image: [`zuudot/order-executor`](https://hub.docker.com/r/zuudot/order-executor) (`:latest`, or pin a version such as `:0.1.3`).
+Image: [`zuudot/order-executor`](https://hub.docker.com/r/zuudot/order-executor) (`:latest`, or pin a version such as `:0.1.4`).
 
 ```bash
-./install.sh 0.1.3
+./install.sh 0.1.4
 # or
-ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.3 ./install.sh
+ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.4 ./install.sh
+```
+
+The installer writes `.env` in the working directory. That file names the image just pulled. `docker-compose.yml` uses it to choose which tag the container runs.
+
+## Update a running container
+
+Update inside the directory you installed into, usually `~/order-executor`. Do not install again in a second directory. That starts another executor.
+
+`conf/config.toml` stays on the host. Updating the image does not change it, and you do not re-enter API keys. The old container stops, then a new one starts from the new image. Unacknowledged commands kept in memory are cleared. The exchange and Gateway connections come back up after the restart.
+
+### Stay on latest
+
+Check `.env`:
+
+```
+ORDER_EXECUTOR_IMAGE=zuudot/order-executor:latest
+```
+
+Then, in that directory:
+
+```bash
+cd ~/order-executor
+docker compose up -d --pull always
+docker compose logs -f
+```
+
+`--pull always` downloads the current image for that tag from Docker Hub, then recreates the container. `docker compose up -d` alone does not download a newer image when a local image with the same name already exists.
+
+### Switch to a fixed version
+
+Set `.env` to the tag you want. Versions are listed in [CHANGELOG.md](CHANGELOG.md) and on Docker Hub.
+
+```
+ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.4
+```
+
+Save the file, then run the same commands:
+
+```bash
+cd ~/order-executor
+docker compose up -d --pull always
+docker compose logs -f
+```
+
+See which image the container is using:
+
+```bash
+cd ~/order-executor
+docker compose images
 ```
 
 ## Configuration
@@ -145,7 +194,7 @@ Production Gateway connections use `wss://`. If the platform requires client cer
 
 ## Versioning
 
-Docker Hub tags (`zuudot/order-executor:0.1.3`) are the source of truth. See [CHANGELOG.md](CHANGELOG.md).
+Docker Hub tags (`zuudot/order-executor:0.1.4`) are the source of truth. See [CHANGELOG.md](CHANGELOG.md). To move a container that is already running onto another tag, follow [Update a running container](#update-a-running-container).
 
 ## License
 

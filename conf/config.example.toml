@@ -4,7 +4,7 @@
 # Do not commit config.toml. It contains exchange and platform secrets.
 
 [platform]
-gateway_url = "wss://zuudot.com/api/trading-engine/executor-gateway/ws"
+gateway_url = "wss://remote-executor-jp.zuudot.com/api/trading-engine/executor-gateway/ws"
 user_id = "YOUR_PLATFORM_USER_ID"
 api_key = "oct_live_xxxxxxxx"
 # Required when the platform enables mTLS for remote executors.

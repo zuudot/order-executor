@@ -3,8 +3,8 @@
 #
 # Usage:
 #   ./install.sh                 # pull zuudot/order-executor:latest
-#   ./install.sh 0.1.3           # pull zuudot/order-executor:0.1.3
-#   ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.3 ./install.sh
+#   ./install.sh 0.1.4           # pull zuudot/order-executor:0.1.4
+#   ORDER_EXECUTOR_IMAGE=zuudot/order-executor:0.1.4 ./install.sh
 #
 # Or:
 #   curl -fsSL https://raw.githubusercontent.com/zuudot/order-executor/main/install.sh | bash
